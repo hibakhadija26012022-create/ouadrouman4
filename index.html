@@ -74,6 +74,59 @@
             30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
             40%, 60% { transform: translate3d(4px, 0, 0); }
         }
+
+        /* Mobile enhancements: safe area, touch targets, tiny text */
+        body { -webkit-tap-highlight-color: transparent; }
+        @supports (padding: max(0px)) {
+            @media (max-width: 1024px) {
+                body { padding-bottom: calc(6rem + env(safe-area-inset-bottom, 0px)); }
+            }
+        }
+        @media (max-width: 640px) {
+            button { min-height: 44px; }
+            .mb-20 { margin-bottom: 5rem !important; }
+        }
+        @media (max-width: 360px) {
+            .text-\[8px\] { font-size: 10px !important; }
+            .text-\[9px\] { font-size: 11px !important; }
+        }
+
+        /* Touch targets and readability for very small screens */
+        @media (max-width: 480px) {
+            .text-\[8px\], .text-\[9px\] { line-height: 1.5 !important; }
+            .text-\[8px\] { font-size: 11px !important; }
+            .text-\[9px\] { font-size: 12px !important; }
+            .text-xs { font-size: 13px !important; }
+            .text-sm { font-size: 14px !important; }
+            button, a { min-height: 48px; min-width: 48px; }
+            .group:hover { transform: none; }
+            .space-y-3 > * + * { margin-top: 1rem !important; }
+            .space-y-4 > * + * { margin-top: 1.25rem !important; }
+            .gap-4 { gap: 1.25rem !important; }
+            .gap-6 { gap: 1.75rem !important; }
+        }
+        @media (max-width: 400px) {
+            .text-\[8px\] { font-size: 12px !important; }
+            .text-\[9px\] { font-size: 13px !important; }
+        }
+        
+        /* Fix mobile navigation overflow */
+        @media (max-width: 480px) {
+            .fixed.bottom-0.left-0.w-full { max-width: 100vw; overflow-x: auto; }
+            .flex.gap-3 { flex-wrap: nowrap; overflow-x: auto; }
+            .flex.items-center.gap-3 { flex-wrap: nowrap; }
+        }
+        
+        /* Fix developer badge positioning */
+        @media (max-width: 480px) {
+            .fixed.top-16.left-4 { 
+                position: fixed !important;
+                top: 4rem !important; 
+                left: 1rem !important;
+                max-width: calc(100vw - 2rem);
+                z-index: 102 !important;
+            }
+        }
     </style>
 </head>
 <body class="bg-slate-50 dark:bg-darkBg text-slate-900 dark:text-slate-100 islamic-pattern pb-20 lg:pb-0">
@@ -172,13 +225,24 @@
         </div>
     </aside>
 
+    <!-- Developer Credit (Mobile Top Left) -->
+    <div class="fixed top-16 left-4 z-[101] lg:hidden flex items-center gap-2 bg-emerald-600 text-white px-3 py-2 rounded-full shadow-lg">
+        <i data-lucide="terminal" size="16"></i>
+        <span class="text-[10px] font-bold">المطور: شاوشي ابراهيم</span>
+    </div>
+
     <!-- Bottom Nav (Mobile) -->
-    <nav class="fixed bottom-0 left-0 w-full glass-effect z-[100] lg:hidden px-2 py-3 flex justify-around border-t border-slate-200 dark:border-slate-800 shadow-[0_-10px_25px_-5px_rgba(0,0,0,0.1)]">
-        <button onclick="switchTab('home')" id="m-nav-home" class="m-nav-btn flex flex-col items-center gap-1 text-emerald-500 mobile-nav-active transition-all"><i data-lucide="home" size="22"></i><span class="text-[9px] font-bold">الرئيسية</span></button>
-        <button onclick="switchTab('lessons')" id="m-nav-lessons" class="m-nav-btn flex flex-col items-center gap-1 text-slate-400 transition-all"><i data-lucide="play-circle" size="22"></i><span class="text-[9px] font-bold">الدروس</span></button>
-        <button onclick="switchTab('quiz')" id="m-nav-quiz" class="m-nav-btn flex flex-col items-center gap-1 text-slate-400 transition-all"><i data-lucide="zap" size="22"></i><span class="text-[9px] font-bold">تحدي</span></button>
-        <button onclick="switchTab('library')" id="m-nav-library" class="m-nav-btn flex flex-col items-center gap-1 text-slate-400 transition-all"><i data-lucide="library" size="22"></i><span class="text-[9px] font-bold">المكتبة</span></button>
-        <button onclick="switchTab('leaderboard')" id="m-nav-leaderboard" class="m-nav-btn flex flex-col items-center gap-1 text-slate-400 transition-all"><i data-lucide="trophy" size="22"></i><span class="text-[9px] font-bold">التميز</span></button>
+    <nav class="fixed bottom-0 left-0 w-full glass-effect z-[100] lg:hidden px-4 py-4 flex justify-between items-center border-t border-slate-200 dark:border-slate-800 shadow-[0_-10px_25px_-5px_rgba(0,0,0,0.1)]">
+        <div class="flex items-center gap-3">
+            <button onclick="switchTab('home')" id="m-nav-home" class="m-nav-btn flex flex-col items-center gap-1 text-emerald-500 mobile-nav-active transition-all transform hover:scale-110 active:scale-95"><i data-lucide="home" size="24"></i><span class="text-[9px] font-bold">الرئيسية</span></button>
+            <button onclick="switchTab('lessons')" id="m-nav-lessons" class="m-nav-btn flex flex-col items-center gap-1 text-slate-400 transition-all transform hover:scale-110 active:scale-95"><i data-lucide="play-circle" size="24"></i><span class="text-[9px] font-bold">الدروس</span></button>
+            <button onclick="switchTab('quiz')" id="m-nav-quiz" class="m-nav-btn flex flex-col items-center gap-1 text-slate-400 transition-all transform hover:scale-110 active:scale-95"><i data-lucide="zap" size="24"></i><span class="text-[9px] font-bold">تحدي</span></button>
+            <button onclick="switchTab('library')" id="m-nav-library" class="m-nav-btn flex flex-col items-center gap-1 text-slate-400 transition-all transform hover:scale-110 active:scale-95"><i data-lucide="library" size="24"></i><span class="text-[9px] font-bold">المكتبة</span></button>
+        </div>
+        <div class="flex items-center gap-3">
+            <button onclick="switchTab('leaderboard')" id="m-nav-leaderboard" class="m-nav-btn flex flex-col items-center gap-1 text-slate-400 transition-all transform hover:scale-110 active:scale-95"><i data-lucide="trophy" size="24"></i><span class="text-[9px] font-bold">التميز</span></button>
+            <button onclick="handleLogout()" class="m-nav-btn flex flex-col items-center gap-1 text-red-500 hover:text-red-600 transition-all transform hover:scale-110 active:scale-95"><i data-lucide="log-out" size="24"></i><span class="text-[9px] font-bold">خروج</span></button>
+        </div>
     </nav>
 
     <main class="content-shift p-4 md:p-8 lg:p-12 mb-20 lg:mb-0 transition-all">
@@ -308,6 +372,7 @@
                                 </div>
                                 <p id="name-rank-2" class="font-black text-xs md:text-sm text-center truncate w-full">---</p>
                                 <p id="points-rank-2" class="text-emerald-500 font-bold text-[10px] md:text-xs">0 نقطة</p>
+                                <p id="label-rank-2" class="text-[10px] md:text-xs font-bold text-slate-400">---</p>
                                 <div class="w-full h-24 md:h-32 bg-slate-200/50 dark:bg-slate-800/50 rounded-t-3xl mt-4 border-x border-t border-slate-300 dark:border-slate-700"></div>
                             </div>
                             <div class="podium-item flex-1 flex flex-col items-center max-w-[160px] order-2 -translate-y-4">
@@ -319,6 +384,7 @@
                                 </div>
                                 <p id="name-rank-1" class="font-black text-sm md:text-lg text-center truncate w-full">---</p>
                                 <p id="points-rank-1" class="text-amber-500 font-bold text-xs md:text-sm">0 نقطة</p>
+                                <p id="label-rank-1" class="text-[10px] md:text-xs font-bold text-slate-400">---</p>
                                 <div class="w-full h-32 md:h-44 bg-amber-500/10 rounded-t-3xl mt-4 border-x border-t border-amber-500/30 relative">
                                     <div class="absolute inset-0 islamic-pattern opacity-5"></div>
                                 </div>
@@ -332,6 +398,7 @@
                                 </div>
                                 <p id="name-rank-3" class="font-black text-xs md:text-sm text-center truncate w-full">---</p>
                                 <p id="points-rank-3" class="text-emerald-500 font-bold text-[10px] md:text-xs">0 نقطة</p>
+                                <p id="label-rank-3" class="text-[10px] md:text-xs font-bold text-slate-400">---</p>
                                 <div class="w-full h-20 md:h-24 bg-slate-200/50 dark:bg-slate-800/50 rounded-t-3xl mt-4 border-x border-t border-slate-300 dark:border-slate-700"></div>
                             </div>
                         </div>
@@ -375,11 +442,36 @@
         ];
 
         const quizDB = [
-            { q: "ما هو الركن الأول من أركان الإيمان؟", a: ["الإيمان بالله", "الصلاة", "الزكاة", "الإيمان بالقدر"], c: 0 },
-            { q: "كم عدد سور القرآن الكريم؟", a: ["110", "114", "120", "116"], c: 1 },
-            { q: "من هو أول من آمن من الرجال؟", a: ["عمر بن الخطاب", "عثمان بن عفان", "أبو بكر الصديق", "علي بن أبي طالب"], c: 2 },
-            { q: "ما هي عاصمة الدولة الأموية؟", a: ["بغداد", "دمشق", "القاهرة", "المدينة"], c: 1 },
-            { q: "في أي شهر نزل القرآن الكريم؟", a: ["شوال", "شعبان", "رمضان", "رجب"], c: 2 }
+            { q: "كم عدد أركان الإسلام؟", a: ["أربعة", "خمسة", "ستة", "سبعة"], c: 1 },
+            { q: "ما أول ركن من أركان الإسلام؟", a: ["الشهادتان", "الصلاة", "الزكاة", "الحج"], c: 0 },
+            { q: "كم عدد أركان الإيمان؟", a: ["خمسة", "ستة", "سبعة", "ثمانية"], c: 1 },
+            { q: "ما أول سورة في المصحف؟", a: ["الفاتحة", "البقرة", "الإخلاص", "العلق"], c: 0 },
+            { q: "كم عدد سور القرآن؟", a: ["112", "114", "116", "120"], c: 1 },
+            { q: "من هو خاتم الأنبياء؟", a: ["عيسى", "موسى", "محمد", "إبراهيم"], c: 2 },
+            { q: "في أي غار نزل الوحي أول مرة؟", a: ["غار حراء", "غار ثور", "غار يعقوب", "لا شيء مما سبق"], c: 0 },
+            { q: "ما هي قبلة المسلمين؟", a: ["الكعبة", "بيت المقدس", "طور سيناء", "المسجد الأقصى"], c: 0 },
+            { q: "كم عدد الصلوات المفروضة؟", a: ["ثلاث", "أربع", "خمس", "ست"], c: 2 },
+            { q: "صوم رمضان حكمه؟", a: ["فرض", "سنة", "مباح", "مكروه"], c: 0 },
+            { q: "متى يبدأ وقت صلاة المغرب؟", a: ["عند غروب الشمس", "عند زوال الشمس", "عند الفجر", "عند منتصف الليل"], c: 0 },
+            { q: "من هو أول الخلفاء الراشدين؟", a: ["أبو بكر الصديق", "عمر بن الخطاب", "عثمان بن عفان", "علي بن أبي طالب"], c: 0 },
+            { q: "من هو ثاني الخلفاء الراشدين؟", a: ["عثمان بن عفان", "علي بن أبي طالب", "عمر بن الخطاب", "معاوية بن أبي سفيان"], c: 2 },
+            { q: "ما السورة التي تسمى قلب القرآن؟", a: ["يس", "الرحمن", "الإخلاص", "الفلق"], c: 0 },
+            { q: "أي سورة تعدل ثلث القرآن؟", a: ["الإخلاص", "الفاتحة", "الكافرون", "الناس"], c: 0 },
+            { q: "كم مرة ذُكر محمداسم  في القرآن؟", a: ["أربع مرات", "خمس مرات", "ست مرات", "سبع مرات"], c: 0 },
+            { q: "ما العبارة التي تُقال عند بدء القراءة؟", a: ["بسم الله الرحمن الرحيم", "الحمد لله", "سبحان الله", "لا إله إلا الله"], c: 0 },
+            { q: "ليلة القدر تكون في شهر؟", a: ["شعبان", "رمضان", "رجب", "محرم"], c: 1 },
+            { q: "أول مسجد بني في الإسلام؟", a: ["المسجد الحرام", "مسجد قباء", "المسجد النبوي", "المسجد الأقصى"], c: 1 },
+            { q: "كم عدد أشواط الطواف؟", a: ["خمسة", "ستة", "سبعة", "ثمانية"], c: 2 },
+            { q: "إتمام السعي يكون بين؟", a: ["الصفا والمروة", "منى وعرفة", "الصفا ومنى", "عرفة والمزدلفة"], c: 0 },
+            { q: "الزكاة ركن من؟", a: ["أركان الإسلام", "أركان الإيمان", "الإحسان", "السنن"], c: 0 },
+            { q: "أي السور تبدأ بسبحان؟", a: ["الإسراء", "الرحمن", "الحديد", "الفجر"], c: 0 },
+            { q: "من هو ذو النون؟", a: ["يونس", "يوسف", "أيوب", "إلياس"], c: 0 },
+            { q: "اسم والد إبراهيم عليه السلام؟", a: ["عمران", "آزر", "عمر", "نوح"], c: 1 },
+            { q: "أيُّ المخلوقات تكلم في القرآن؟", a: ["النملة", "الهدهد", "البقرة", "كلب أصحاب الكهف"], c: 0 },
+            { q: "ما الصلاة التي لا ركوع فيها ولا سجود؟", a: ["صلاة الجنازة", "الوتر", "العيد", "الاستخارة"], c: 0 },
+            { q: "أطول سورة في القرآن؟", a: ["البقرة", "آل عمران", "النساء", "الأعراف"], c: 0 },
+            { q: "أقصر سورة في القرآن؟", a: ["الإخلاص", "الكوثر", "الفلق", "الناس"], c: 1 },
+            { q: "كم عدد أركان الحج؟", a: ["اثنان", "ثلاثة", "أربعة", "خمسة"], c: 2 }
         ];
 
         let leaderboardData = [
@@ -431,6 +523,67 @@
             setTimeout(() => card.classList.remove('shake'), 400);
         }
 
+        function getStoredUsers() {
+            try {
+                const raw = localStorage.getItem('wr_users');
+                return raw ? JSON.parse(raw) : [];
+            } catch (e) {
+                return [];
+            }
+        }
+
+        function saveStoredUsers(users) {
+            try { localStorage.setItem('wr_users', JSON.stringify(users)); } catch (e) {}
+        }
+
+        function findStoredUserByEmail(email) {
+            const users = getStoredUsers();
+            return users.find(u => u.email === email);
+        }
+
+        function shouldRemember() {
+            const cb = document.getElementById('remember-me');
+            return !cb || cb.checked;
+        }
+
+        function ensureRememberMeUI() {
+            const form = document.getElementById('auth-form');
+            const submitBtn = document.getElementById('auth-submit');
+            if (!form || !submitBtn) return;
+            if (document.getElementById('remember-me')) return;
+            const wrap = document.createElement('div');
+            wrap.className = 'flex items-center justify-between text-xs font-bold text-slate-500';
+            wrap.innerHTML = `
+                <label class="inline-flex items-center gap-2 cursor-pointer">
+                    <input id="remember-me" type="checkbox" class="w-4 h-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500" checked>
+                    <span>تذكرني</span>
+                </label>
+            `;
+            form.insertBefore(wrap, submitBtn);
+        }
+
+        function ensurePasswordToggleUI() {
+            const passInput = document.getElementById('auth-pass');
+            if (!passInput) return;
+            const container = passInput.parentElement;
+            if (!container) return;
+            if (container.querySelector('#toggle-pass-btn')) return;
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.id = 'toggle-pass-btn';
+            btn.className = 'absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-emerald-600 transition-colors';
+            btn.setAttribute('aria-label', 'إظهار/إخفاء كلمة المرور');
+            btn.innerHTML = '<i data-lucide="eye" size="18"></i>';
+            btn.addEventListener('click', () => {
+                const hidden = passInput.type === 'password';
+                passInput.type = hidden ? 'text' : 'password';
+                btn.innerHTML = `<i data-lucide="${hidden ? 'eye-off' : 'eye'}" size="18"></i>`;
+                lucide.createIcons();
+            });
+            container.appendChild(btn);
+            lucide.createIcons();
+        }
+
         function handleAuth(e) {
             e.preventDefault();
             const email = document.getElementById('auth-email').value;
@@ -442,7 +595,13 @@
                 if (email === "test@test.com" && pass === "123456") {
                     loginUser({ name: "شاوشي ابراهيم", email: email, seed: "Ibrahim" });
                 } else {
-                    showAuthError("البريد الإلكتروني أو كلمة المرور غير صحيحة.");
+                    const users = getStoredUsers();
+                    const user = users.find(u => u.email === email && u.pass === pass);
+                    if (user) {
+                        loginUser(user);
+                    } else {
+                        showAuthError("البريد الإلكتروني أو كلمة المرور غير صحيحة.");
+                    }
                 }
             } else {
                 // Mock Register Logic
@@ -451,13 +610,22 @@
                 } else if (pass.length < 6) {
                     showAuthError("كلمة المرور يجب أن تكون 6 أحرف على الأقل.");
                 } else {
-                    loginUser({ name: name, email: email, seed: name });
+                    if (findStoredUserByEmail(email)) {
+                        showAuthError("هذا البريد مسجل مسبقًا.");
+                        return;
+                    }
+                    const newUser = { name: name, email: email, pass: pass, seed: name };
+                    const users = getStoredUsers();
+                    users.push(newUser);
+                    saveStoredUsers(users);
+                    loginUser(newUser);
                 }
             }
         }
 
         function loginUser(user) {
             currentUser = user;
+            try { if (shouldRemember()) localStorage.setItem('wr_session', JSON.stringify({ name: user.name, email: user.email, seed: user.seed })); } catch (e) {}
             document.getElementById('auth-overlay').style.opacity = '0';
             setTimeout(() => {
                 document.getElementById('auth-overlay').style.display = 'none';
@@ -475,6 +643,7 @@
 
         function handleLogout() {
             currentUser = null;
+            try { localStorage.removeItem('wr_session'); } catch (e) {}
             document.getElementById('auth-overlay').style.display = 'flex';
             setTimeout(() => {
                 document.getElementById('auth-overlay').style.opacity = '1';
@@ -524,6 +693,51 @@
             lucide.createIcons();
         }
 
+        function getTier(score) {
+            if (score >= 1700) return { label: 'طالب متميز', color: 'text-amber-500' };
+            if (score < 700) return { label: 'طالب متوسط', color: 'text-slate-400' };
+            return { label: 'طالب مجتهد', color: 'text-emerald-500' };
+        }
+
+        function getTierVisual(score) {
+            // Returns icon name and background color class for badge
+            if (score >= 1700) return { icon: 'trophy', bg: 'bg-amber-500' };
+            if (score < 700) return { icon: 'award', bg: 'bg-slate-500' };
+            return { icon: 'star', bg: 'bg-emerald-600' };
+        }
+
+        function setTopBadge(rank, visual) {
+            const img = document.getElementById(`avatar-rank-${rank}`);
+            if (!img) return;
+            const wrap = img.parentElement; // avatar circle container
+            if (!wrap) return;
+            wrap.classList.add('relative');
+            let badge = wrap.querySelector('.tier-badge');
+            if (!badge) {
+                badge = document.createElement('div');
+                badge.className = `tier-badge absolute -top-1 -left-1 w-6 h-6 rounded-full flex items-center justify-center text-white shadow ring-2 ring-white dark:ring-slate-900`;
+                wrap.appendChild(badge);
+            }
+            badge.className = `tier-badge absolute -top-1 -left-1 w-6 h-6 rounded-full flex items-center justify-center text-white shadow ring-2 ring-white dark:ring-slate-900 ${visual.bg}`;
+            badge.innerHTML = `<i data-lucide="${visual.icon}" size="12"></i>`;
+        }
+
+        function updateLeaderboardLive() {
+            if (!currentUser) return;
+            const correct = Math.floor(quizScore / 100);
+            const total = quizDB.length;
+            const accuracy = Math.round((correct / total) * 100);
+            const timeTaken = (typeof QUIZ_START_TIME !== 'undefined' ? QUIZ_START_TIME : 120) - timer;
+            const entry = { name: currentUser.name, score: quizScore, seed: currentUser.seed, correct, total, accuracy, time: timeTaken, live: true };
+            const idx = leaderboardData.findIndex(e => e.name === currentUser.name && e.live === true);
+            if (idx !== -1) {
+                leaderboardData[idx] = entry;
+            } else {
+                leaderboardData.push(entry);
+            }
+            renderLeaderboard();
+        }
+
         function renderLeaderboard() {
             const list = document.getElementById('leaderboard-list');
             if(!list) return;
@@ -536,26 +750,50 @@
                 document.getElementById(`name-rank-${rank}`).innerText = user.name;
                 document.getElementById(`points-rank-${rank}`).innerText = user.score.toLocaleString() + ' نقطة';
                 document.getElementById(`avatar-rank-${rank}`).src = `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.seed}`;
+                const tier = getTier(user.score);
+                const labelEl = document.getElementById(`label-rank-${rank}`);
+                if (labelEl) {
+                    const correct = typeof user.correct === 'number' ? user.correct : Math.floor(user.score/100);
+                    const total = typeof user.total === 'number' ? user.total : quizDB.length;
+                    const accuracy = typeof user.accuracy === 'number' ? user.accuracy : Math.round((correct/total)*100);
+                    const liveMark = user.live ? ' • مباشر' : '';
+                    labelEl.innerText = `${tier.label}${liveMark} • ${correct}/${total} • ${accuracy}%`;
+                    labelEl.className = `text-[10px] md:text-xs font-bold ${tier.color}`;
+                }
+                // Badge overlay on top 3 avatars
+                const visual = getTierVisual(user.score);
+                setTopBadge(rank, visual);
             });
 
-            list.innerHTML = rest.map((item, idx) => `
+            list.innerHTML = rest.map((item, idx) => {
+                const tier = getTier(item.score);
+                const correct = typeof item.correct === 'number' ? item.correct : Math.floor(item.score/100);
+                const total = typeof item.total === 'number' ? item.total : quizDB.length;
+                const accuracy = typeof item.accuracy === 'number' ? item.accuracy : Math.round((correct/total)*100);
+                const time = typeof item.time === 'number' ? item.time : null;
+                const visual = getTierVisual(item.score);
+                return `
                 <div class="flex items-center justify-between p-4 md:p-6 hover:bg-emerald-500/5 transition-all group">
                     <div class="flex items-center gap-4 md:gap-6">
                         <span class="w-6 font-black text-slate-400 text-xs md:text-sm text-center">${idx + 4}</span>
-                        <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-slate-100 dark:bg-slate-700/50 overflow-hidden ring-2 ring-transparent group-hover:ring-emerald-500 transition-all">
+                        <div class="relative w-10 h-10 md:w-12 md:h-12 rounded-xl bg-slate-100 dark:bg-slate-700/50 overflow-hidden ring-2 ring-transparent group-hover:ring-emerald-500 transition-all">
                             <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=${item.seed}" class="w-full h-full object-cover">
+                            <div class="tier-badge absolute -top-1 -left-1 w-5 h-5 rounded-full flex items-center justify-center text-white ${visual.bg} shadow ring-2 ring-white dark:ring-slate-900">
+                                <i data-lucide="${visual.icon}" size="10"></i>
+                            </div>
                         </div>
                         <div>
-                            <p class="font-black text-sm md:text-base">${item.name}</p>
-                            <p class="text-[9px] font-bold text-slate-400 uppercase">طالب مجتهد</p>
+                            <p class="font-black text-sm md:text-base">${item.name} ${item.live ? '<span class="inline-flex items-center gap-1 text-[8px] font-black text-emerald-600 mr-2"><span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>مباشر</span>' : ''}</p>
+                            <p class="text-[9px] font-bold ${tier.color}">${tier.label}</p>
+                            <p class="text-[9px] font-bold text-slate-400">الصواب: ${correct}/${total} • الدقة: ${accuracy}%` + (time !== null ? ` • الزمن: ${time}s` : ``) + `</p>
                         </div>
                     </div>
                     <div class="text-left">
                         <p class="font-black text-emerald-500 text-sm md:text-lg">${item.score.toLocaleString()}</p>
                         <p class="text-[8px] font-bold text-slate-400 uppercase">نقطة</p>
                     </div>
-                </div>
-            `).join('');
+                </div>`;
+            }).join('');
             lucide.createIcons();
         }
 
@@ -573,14 +811,52 @@
         }
 
         // --- Quiz System ---
-        let currentQuizIdx = 0, quizScore = 0, timer = 60, quizInterval;
+        const QUIZ_START_TIME = 120;
+        let currentQuizIdx = 0, quizScore = 0, timer = QUIZ_START_TIME, quizInterval, statusTimeout;
+
+        // Leaderboard persistence helpers
+        function getStoredLeaderboard() {
+            try {
+                const raw = localStorage.getItem('wr_leaderboard');
+                return raw ? JSON.parse(raw) : [];
+            } catch (e) {
+                return leaderboardData;
+            }
+        }
+        function saveStoredLeaderboard(data) {
+            try { 
+                const limited = data.slice(0, 10000);
+                localStorage.setItem('wr_leaderboard', JSON.stringify(limited)); 
+            } catch (e) {}
+        }
+
+        // Load persisted leaderboard on start
+        leaderboardData = getStoredLeaderboard();
+
+        function formatTime(secs) {
+            const m = Math.floor(secs / 60).toString().padStart(2, '0');
+            const s = Math.max(0, secs % 60).toString().padStart(2, '0');
+            return `${m}:${s}`;
+        }
         function startQuiz() {
-            currentQuizIdx = 0; quizScore = 0; timer = 60;
+            currentQuizIdx = 0; quizScore = 0; timer = QUIZ_START_TIME;
             document.getElementById('quiz-intro').classList.add('hidden');
             document.getElementById('quiz-container').classList.remove('hidden');
+            const timerEl = document.getElementById('timer-display');
+            if (timerEl && !document.getElementById('answer-status')) {
+                const statusEl = document.createElement('div');
+                statusEl.id = 'answer-status';
+                statusEl.className = 'hidden text-xs md:text-sm font-black px-2 py-1 rounded-md border';
+                timerEl.insertAdjacentElement('afterend', statusEl);
+            }
+            if (timerEl) timerEl.innerText = formatTime(timer);
+            // Initialize a live leaderboard entry for the current user
+            updateLeaderboardLive();
             loadQuestion();
             quizInterval = setInterval(() => {
-                timer--; document.getElementById('timer-display').innerText = timer;
+                timer--; document.getElementById('timer-display').innerText = formatTime(timer);
+                // Update live leaderboard snapshot every second
+                updateLeaderboardLive();
                 if(timer <= 0) endQuiz();
             }, 1000);
         }
@@ -590,17 +866,52 @@
             document.getElementById('current-q-num').innerText = currentQuizIdx + 1;
             document.getElementById('question-text').innerText = q.q;
             document.getElementById('score-display').innerText = quizScore;
+            const sEl = document.getElementById('answer-status');
+            if (sEl) sEl.classList.add('hidden');
             document.getElementById('options-grid').innerHTML = q.a.map((opt, i) => `
-                <button onclick="checkAnswer(${i})" class="p-4 md:p-6 bg-white dark:bg-slate-800/50 rounded-2xl font-bold hover:border-emerald-500 border-2 border-transparent transition-all text-right shadow-sm">${opt}</button>
+                <button onclick="checkAnswer(${i}, this)" class="p-4 md:p-6 bg-white dark:bg-slate-800/50 rounded-2xl font-bold hover:border-emerald-500 border-2 border-transparent transition-all text-right shadow-sm">${opt}</button>
             `).join('');
         }
-        function checkAnswer(idx) {
-            if(idx === quizDB[currentQuizIdx].c) quizScore += 100;
-            currentQuizIdx++; loadQuestion();
+        function checkAnswer(idx, btn) {
+            const isCorrect = idx === quizDB[currentQuizIdx].c;
+            const statusEl = document.getElementById('answer-status');
+            if (statusTimeout) clearTimeout(statusTimeout);
+            if (statusEl) {
+                statusEl.textContent = isCorrect ? 'صحيح' : 'خطأ';
+                statusEl.className = 'text-xs md:text-sm font-black px-2 py-1 rounded-md border ' + (isCorrect ? 'text-emerald-600 border-emerald-300 bg-emerald-500/10' : 'text-red-600 border-red-300 bg-red-500/10');
+                statusEl.classList.remove('hidden');
+                statusTimeout = setTimeout(() => statusEl.classList.add('hidden'), 2000);
+            }
+            // Visual highlight on selected button and disable all options
+            try {
+                const allBtns = document.querySelectorAll('#options-grid button');
+                allBtns.forEach(b => { b.disabled = true; b.classList.add('opacity-70','cursor-not-allowed'); });
+                if (btn) {
+                    if (isCorrect) {
+                        btn.classList.add('border-emerald-500','bg-emerald-50','dark:bg-emerald-900/20','text-emerald-700','dark:text-emerald-400');
+                    } else {
+                        btn.classList.add('border-red-500','bg-red-50','dark:bg-red-900/20','text-red-700','dark:text-red-400');
+                    }
+                }
+            } catch (e) {}
+            if(isCorrect) quizScore += 100;
+            // Reflect score change in live leaderboard immediately
+            updateLeaderboardLive();
+            setTimeout(() => { currentQuizIdx++; loadQuestion(); }, 2000);
         }
         function endQuiz() {
             clearInterval(quizInterval);
-            if(currentUser) leaderboardData.push({ name: currentUser.name, score: quizScore, seed: currentUser.seed });
+            const correct = Math.floor(quizScore / 100);
+            const total = quizDB.length;
+            const accuracy = Math.round((correct / total) * 100);
+            const timeTaken = (typeof QUIZ_START_TIME !== 'undefined' ? QUIZ_START_TIME : 120) - timer;
+            if(currentUser) {
+                // Remove temporary live snapshot for this user, then add final result
+                leaderboardData = leaderboardData.filter(e => !(e.name === currentUser.name && e.live === true));
+                leaderboardData.push({ name: currentUser.name, score: quizScore, seed: currentUser.seed, correct, total, accuracy, time: timeTaken });
+                // Persist final leaderboard
+                saveStoredLeaderboard(leaderboardData);
+            }
             renderLeaderboard();
             switchTab('leaderboard');
             document.getElementById('quiz-intro').classList.remove('hidden');
@@ -658,9 +969,21 @@
             lucide.createIcons();
         }
 
+        function restoreSession() {
+            try {
+                const raw = localStorage.getItem('wr_session');
+                if (!raw) return;
+                const sess = JSON.parse(raw);
+                if (sess && sess.email) loginUser({ name: sess.name, email: sess.email, seed: sess.seed || sess.name });
+            } catch (e) {}
+        }
+
         window.onload = () => {
             lucide.createIcons();
             // Platform remains locked behind auth overlay
+            ensureRememberMeUI();
+            ensurePasswordToggleUI();
+            restoreSession();
         };
     </script>
 </body>
