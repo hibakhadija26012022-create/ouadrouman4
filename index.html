@@ -542,6 +542,10 @@
             return users.find(u => u.email === email);
         }
 
+        function clearStoredUsers() {
+            try { localStorage.removeItem('wr_users'); } catch (e) {}
+        }
+
         function shouldRemember() {
             const cb = document.getElementById('remember-me');
             return !cb || cb.checked;
@@ -644,7 +648,11 @@
 
         function handleLogout() {
             currentUser = null;
-            try { localStorage.removeItem('wr_session'); } catch (e) {}
+            try { 
+                localStorage.removeItem('wr_session'); 
+                clearStoredUsers();
+                clearStoredLeaderboard();
+            } catch (e) {}
             document.getElementById('auth-overlay').style.display = 'flex';
             setTimeout(() => {
                 document.getElementById('auth-overlay').style.opacity = '1';
@@ -821,7 +829,7 @@
                 const raw = localStorage.getItem('wr_leaderboard');
                 return raw ? JSON.parse(raw) : [];
             } catch (e) {
-                return leaderboardData;
+                return [];
             }
         }
         function saveStoredLeaderboard(data) {
@@ -829,6 +837,9 @@
                 const limited = data.slice(0, 10000);
                 localStorage.setItem('wr_leaderboard', JSON.stringify(limited)); 
             } catch (e) {}
+        }
+        function clearStoredLeaderboard() {
+            try { localStorage.removeItem('wr_leaderboard'); } catch (e) {}
         }
 
         // Load persisted leaderboard on start
@@ -989,3 +1000,5 @@
     </script>
 </body>
 </html>
+
+
